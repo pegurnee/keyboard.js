@@ -1,4 +1,10 @@
 var Keyboard = (function() {
+  const CCCOMBO = {
+    'nav-up'    : ['ArrowUp',     'i', 'w'],
+    'nav-left'  : ['ArrowLeft',   'j', 'a'],
+    'nav-down'  : ['ArrowDown',   'k', 's'],
+    'nav-right' : ['ArrowRight',  'l', 'd'],
+  };
   var commands = [];
 
   Keyboard = function() {
@@ -26,6 +32,10 @@ var Keyboard = (function() {
         if (indivKeys.length > 1) {
           assignOnAll(indivKeys, assignFunction);
         } else {
+          if (CCCOMBO[theKeys]) {
+            // console.log(`dafuq: ${JSON.stringify(theKeys)}`);
+            this.set(CCCOMBO[theKeys], assignFunction);
+          }
           assignWithJust(theKeys, assignFunction);
         }
         console.log(JSON.stringify(indivKeys));
@@ -47,12 +57,14 @@ var Keyboard = (function() {
     } else {
       console.log(e.key);
     }
-    
-    var func = commands[e.key];
 
-    if (func) {
-      func();
-    };
+    if (e.type === 'keypress') {
+      var func = commands[e.key];
+
+      if (func) {
+        func();
+      }
+    }
   }
 
   return Keyboard;
