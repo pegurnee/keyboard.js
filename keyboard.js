@@ -1,4 +1,6 @@
 var Keyboard = (function() {
+  var commands = [];
+
   Keyboard = function() {
     document.addEventListener('keypress', keyHandler)
     document.addEventListener('keydown', keyHandler)
@@ -26,6 +28,7 @@ var Keyboard = (function() {
         } else {
           assignWithJust(theKeys, assignFunction);
         }
+        console.log(JSON.stringify(indivKeys));
       }
     }
   }
@@ -35,15 +38,21 @@ var Keyboard = (function() {
   }
 
   function assignWithJust(key, assignFunction) {
-
+    commands[key] = assignFunction;
   }
 
   function keyHandler(e) {
     if (typeof e.key != 'string') {
       throw "screw everything";
+    } else {
+      console.log(e.key);
     }
+    
+    var func = commands[e.key];
 
-    console.log(JSON.stringify(e));
+    if (func) {
+      func();
+    };
   }
 
   return Keyboard;
