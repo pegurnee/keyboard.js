@@ -4,6 +4,7 @@ var Keyboard = (function() {
     'nav-left'  : ['ArrowLeft',   'j', 'a'],
     'nav-down'  : ['ArrowDown',   'k', 's'],
     'nav-right' : ['ArrowRight',  'l', 'd'],
+    'konami'    : ['ArrowUp ArrowUp ArrowDown ArrowDown ArrowLeft ArrowRight ArrowLeft ArrowRight b a Enter']
   };
   var commands = [];
 
