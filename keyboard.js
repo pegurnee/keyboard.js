@@ -30,27 +30,38 @@ var Keyboard = (function() {
     "/": "?"
   };
   const LOWER_NOT_LETTERS = {
-    '~': '`',
-    '!': '1',
-    '@': '2',
-    '#': '3',
-    '$': '4',
-    '%': '5',
-    '^': '6',
-    '&': '7',
-    '*': '8',
-    '(': '9',
-    ')': '0',
-    '_': '-',
-    '+': '=',
-    '{': '[',
-    '}': ']',
-    '|': '\\',
-    ':': ';',
-    '"': "'",
-    '<': ',',
-    '>': '.',
-    '?': '/'
+    ")": "0",
+    "!": "1",
+    "@": "2",
+    "#": "3",
+    "$": "4",
+    "%": "5",
+    "^": "6",
+    "&": "7",
+    "*": "8",
+    "(": "9",
+    "~": "`",
+    "_": "-",
+    "+": "=",
+    "{": "[",
+    "}": "]",
+    "|": "\\",
+    ":": ";",
+    "\"": "'",
+    "<": ",",
+    ">": ".",
+    "?": "/"
+  };
+  const ALT_SPELLINGS = {
+    "esc": "Escape",
+    "return": "Enter",
+    "command": "meta",
+    "cmd": "meta",
+    "plus": "+",
+    "up": "ArrowUp",
+    "down": "ArrowDown",
+    "left": "ArrowLeft",
+    "right": "ArrowRight"
   };
   var commands = [];
 
@@ -118,6 +129,9 @@ var Keyboard = (function() {
       }
       if (e.metaKey) {
         funcIndex = `meta+${funcIndex}`;
+      }
+      if (e.altKey) {
+        throw "screw it all";
       }
       console.log(funcIndex);
       var func = commands[funcIndex];
