@@ -1,10 +1,56 @@
 var Keyboard = (function() {
   const CCCOMBO = {
-    'nav-up'    : ['ArrowUp',     'i', 'w'],
-    'nav-left'  : ['ArrowLeft',   'j', 'a'],
-    'nav-down'  : ['ArrowDown',   'k', 's'],
-    'nav-right' : ['ArrowRight',  'l', 'd'],
-    'konami'    : ['ArrowUp ArrowUp ArrowDown ArrowDown ArrowLeft ArrowRight ArrowLeft ArrowRight b a Enter']
+    'nav-up': ['ArrowUp', 'i', 'w'],
+    'nav-left': ['ArrowLeft', 'j', 'a'],
+    'nav-down': ['ArrowDown', 'k', 's'],
+    'nav-right': ['ArrowRight', 'l', 'd'],
+    'konami': ['ArrowUp ArrowUp ArrowDown ArrowDown ArrowLeft ArrowRight ArrowLeft ArrowRight b a Enter']
+  };
+  const REVERSE_REVERSE = {
+    "0": ")",
+    "1": "!",
+    "2": "@",
+    "3": "#",
+    "4": "$",
+    "5": "%",
+    "6": "^",
+    "7": "&",
+    "8": "*",
+    "9": "(",
+    "`": "~",
+    "-": "_",
+    "=": "+",
+    "[": "{",
+    "]": "}",
+    "\\": "|",
+    ";": ":",
+    "'": "\"",
+    ",": "<",
+    ".": ">",
+    "/": "?"
+  };
+  const LOWER_NOT_LETTERS = {
+    '~': '`',
+    '!': '1',
+    '@': '2',
+    '#': '3',
+    '$': '4',
+    '%': '5',
+    '^': '6',
+    '&': '7',
+    '*': '8',
+    '(': '9',
+    ')': '0',
+    '_': '-',
+    '+': '=',
+    '{': '[',
+    '}': ']',
+    '|': '\\',
+    ':': ';',
+    '"': "'",
+    '<': ',',
+    '>': '.',
+    '?': '/'
   };
   var commands = [];
 
@@ -29,17 +75,18 @@ var Keyboard = (function() {
         //   this.set(key, assignFunction);
         // }, this);
       } else {
-        var indivKeys = theKeys.split('+');
-        if (indivKeys.length > 1) {
-          assignOnAll(indivKeys, assignFunction);
+        // var indivKeys = theKeys.split('+');
+        // if (indivKeys.length > 1) {
+        //   assignOnAll(indivKeys, assignFunction);
+        // } else {
+        if (CCCOMBO[theKeys]) {
+          // console.log(`dafuq: ${JSON.stringify(theKeys)}`);
+          this.set(CCCOMBO[theKeys], assignFunction);
         } else {
-          if (CCCOMBO[theKeys]) {
-            // console.log(`dafuq: ${JSON.stringify(theKeys)}`);
-            this.set(CCCOMBO[theKeys], assignFunction);
-          }
           assignWithJust(theKeys, assignFunction);
+          // }
+          console.log(JSON.stringify(theKeys));
         }
-        console.log(JSON.stringify(indivKeys));
       }
     }
   }
@@ -52,15 +99,28 @@ var Keyboard = (function() {
     commands[key] = assignFunction;
   }
 
+  function toMostlyUpperCase(key) {
+    return REVERSE_REVERSE[key] || key.toUpperCase();
+  }
+
   function keyHandler(e) {
     if (typeof e.key != 'string') {
       throw "screw everything";
     } else {
-      console.log(e.key);
+      // console.log(e.key);
     }
 
     if (e.type === 'keypress') {
-      var func = commands[e.key];
+      var funcIndex = e.key;
+
+      if (e.ctrlKey) {
+        funcIndex = `ctrl+${e.shiftKey ? toMostlyUpperCase(funcIndex) : funcIndex}`;
+      }
+      if (e.metaKey) {
+        funcIndex = `meta+${funcIndex}`;
+      }
+      console.log(funcIndex);
+      var func = commands[funcIndex];
 
       if (func) {
         func();
